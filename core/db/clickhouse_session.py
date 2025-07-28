@@ -15,22 +15,9 @@ clickhouse_engine = create_engine(
 )
 
 # ClickHouse session factory
-ClickHouseSession = make_session(clickhouse_engine)
+session = make_session(clickhouse_engine)
 
 metadata = MetaData()
 metadata.bind = clickhouse_engine
 
 Base = get_declarative_base(metadata=metadata)
-
-
-async def get_clickhouse_session():
-    """Dependency for getting ClickHouse session"""
-    session = ClickHouseSession()
-
-    try:
-        yield session
-    except Exception:
-        await session.rollback()
-        raise
-    finally:
-        await session.close()

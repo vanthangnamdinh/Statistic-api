@@ -7,6 +7,13 @@ from core.config import config
 from core.db.init_clickhouse import create_clickhouse_tables, check_clickhouse_connection
 
 import asyncio
+import logging
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s | %(levelname)s | %(name)s | %(message)s",
+)
+logger = logging.getLogger(__name__)
 
 
 @click.command()

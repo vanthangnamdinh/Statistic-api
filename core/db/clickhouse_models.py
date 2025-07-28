@@ -10,14 +10,15 @@ class StatisticLog(Base):
     __table_args__ = (engines.Memory(),)
 
     id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
-    local_timestamp = Column(DateTime)
+    local_timestamp = Column(String)
     time_zone = Column(String)
-    utc_timestamp = Column(DateTime)
+    utc_timestamp = Column(String)
     user_id = Column(String)
     conversation_id = Column(String)
     msg_id = Column(String)
     activity_type = Column(String)
     detail = Column(String)
+    _source = Column(String)  # JSON stored as string in ClickHouse
     current_url = Column(String)
     page_title = Column(String)
     page_description = Column(String)

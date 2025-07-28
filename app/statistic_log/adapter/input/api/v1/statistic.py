@@ -18,7 +18,7 @@ statistic_router = APIRouter()
     response_model=StatisticLogResponse,
 )
 @inject
-async def login(
+async def log(
     request: StatisticLogRequest,
     usecase: StatisticLogUseCase = Depends(Provide[Container.statistic_service]),
 ):
