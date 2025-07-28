@@ -1,6 +1,5 @@
-from clickhouse_sqlalchemy import make_session, get_declarative_base, types, engines
+from clickhouse_sqlalchemy import make_session
 from sqlalchemy import create_engine
-from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 from core.config import config
 
 # ClickHouse async engine với connection string đúng format
@@ -10,19 +9,18 @@ clickhouse_engine = create_engine(
     future=True,
     # Thêm các option cho ClickHouse
     pool_pre_ping=True,
-    pool_recycle=3600,
+    # pool_recycle=3600,  # Không cần thiết cho ClickHouse
+    # pool_size=10,  # Không cần thiết cho ClickHouse
+    # Tắt các tính năng không cần thiết
+    pool_use_lifo=False,
 )
 
 # ClickHouse session factory
-ClickHouseSession = async_sessionmaker(
-    bind=clickhouse_engine,
-    class_=AsyncSession,
-    expire_on_commit=False,
-    autoflush=False,  # Tắt autoflush cho ClickHouse
-    autocommit=False
+ClickHouseSession = make_session(
+   clickhouse_engine
 )
 
-async def get_clickhouse_session() -> AsyncSession:
+async def get_clickhouse_session() :
     """Dependency for getting ClickHouse session"""
     async with ClickHouseSession() as session:
         try:
