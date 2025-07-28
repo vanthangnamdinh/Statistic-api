@@ -8,10 +8,12 @@ services:
       - CLICK_HOUSE_HOST=localhost
       - CLICK_HOUSE_PORT=9000
       - CLICK_HOUSE_HTTP_PORT=8123
-      - CLICK_HOUSE_DB=statistic
+      - CLICK_HOUSE_DB=statistic_log
       - HTTP_SERVER_HOST=0.0.0.0
       - HTTP_SERVER_PORT=8000
       - COUNT_WORKERS_UVICORN=4
+      - CLICK_HOUSE_USER=admin_user
+      - CLICK_HOUSE_PASSWORD=secure_password_123
     ulimits:
       nproc: 65535
       nofile:

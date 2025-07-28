@@ -4,6 +4,9 @@ import click
 import uvicorn
 
 from core.config import config
+from core.db.init_clickhouse import create_clickhouse_tables, check_clickhouse_connection
+
+import asyncio
 
 
 @click.command()
@@ -31,4 +34,15 @@ def main(env: str, debug: bool):
 
 
 if __name__ == "__main__":
+    async def init_clickhouse():
+        print("🔧 Initializing ClickHouse...")
+        
+        # Check connection first
+        if await check_clickhouse_connection():
+            # Create tables
+            await create_clickhouse_tables()
+        else:
+            print("❌ Cannot proceed without ClickHouse connection")
+
+    asyncio.run(init_clickhouse())
     main()

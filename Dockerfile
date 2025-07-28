@@ -1,4 +1,4 @@
-FROM python:3.11-slim AS builder
+FROM python:3.11.7-slim AS builder
 
 ENV HTTP_PROXY=    
 
@@ -17,7 +17,10 @@ COPY . /app
 RUN python -m venv /app/venv
 
 RUN . /app/venv/bin/activate && \
-    pip install --no-cache-dir -r requirements.txt
+    pip install --upgrade pip setuptools && \
+    pip install poetry && \
+    poetry config virtualenvs.create false && \
+    poetry install --only main
 
 FROM python:3.11.7-slim
 
