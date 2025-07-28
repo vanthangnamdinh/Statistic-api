@@ -34,15 +34,10 @@ def main(env: str, debug: bool):
 
 
 if __name__ == "__main__":
-    async def init_clickhouse():
-        print("🔧 Initializing ClickHouse...")
-        
-        # Check connection first
-        if await check_clickhouse_connection():
-            # Create tables
-            await create_clickhouse_tables()
-        else:
-            print("❌ Cannot proceed without ClickHouse connection")
+    print("🔧 Initializing ClickHouse...")
 
-    asyncio.run(init_clickhouse())
+    if check_clickhouse_connection():
+        create_clickhouse_tables()
+    else:
+        print("❌ Cannot proceed without ClickHouse connection")
     main()
